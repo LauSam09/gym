@@ -1,3 +1,14 @@
 .container > div {
     white-space: nowrap;
 }
+
+.exercise-name {
+    display: inline-block;
+    max-width: 175px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+
+.exercise-set {
+    float: right;
+}
