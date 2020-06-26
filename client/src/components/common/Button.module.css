@@ -1,10 +1,23 @@
 .button {
-  width: 100px;
-  height: 100px;
   background-color: #333;
   color: white;
   border: none !important;
   padding: 0;
+}
+
+.small {
+  width: 75px;
+  height: 25px;
+}
+
+.medium {
+  width: 75px;
+  height: 75px;
+}
+
+.large {
+  width: 100px;
+  height: 100px;
 }
 
 .button:hover {

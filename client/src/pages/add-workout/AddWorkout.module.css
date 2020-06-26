@@ -1,0 +1,29 @@
+.container {
+    max-width: 500px;
+    margin: auto;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.add {
+    margin-top: 10px;
+    text-align: center;
+}
+
+.sets {
+    padding: 10px 0;
+    text-align: center;
+}
+
+.sets > div {
+    margin-bottom: 5px;
+}
+
+.sets input {
+    max-width: 75px;
+    margin: 0 2px 0 10px;
+    text-align: center;
+}
