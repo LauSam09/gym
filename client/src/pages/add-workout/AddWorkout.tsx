@@ -30,7 +30,7 @@ export default function AddWorkout () {
   }
 
   return <div className={styles.container}>
-    <div>
+    <div className={styles.header}>
       <span>New Workout</span>
       <div style={{ float: 'right' }}>
         <Button size="small" text="Finish" />
