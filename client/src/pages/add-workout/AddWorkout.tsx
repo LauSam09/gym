@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import Button from '../../components/common/Button'
 import styles from './AddWorkout.module.css'
 import Exercise from '../../models/domain/exercise'
+import Set from '../../components/add-workout/Set'
 
 export default function AddWorkout () {
   const [exercises, setExercises] = useState<Exercise[]>([{ name: '', sets: [{ repetitions: 0 }] }])
@@ -63,13 +64,14 @@ export default function AddWorkout () {
             <div className={styles.sets}>
               {
                 exercise.sets.map((set, setIndex) => (
-                  <div key={setIndex}>
-                    <label>{setIndex + 1}</label>
-                    <input placeholder='-' value={set.weight} type="number" onChange={e => updateSetWeight(exerciseIndex, setIndex, e.target.value)} />kg
-                     x
-                    <input type="number" min="0" value={set.repetitions} onChange={e => updateSetRepetitions(exerciseIndex, setIndex, +e.target.value)} />
-                    <Button text='X' size='small' onClick={() => deleteSet(exerciseIndex, setIndex)} />
-                  </div>
+                  <Set
+                    key={setIndex}
+                    number={setIndex}
+                    set={set}
+                    updateRepetitions={value => updateSetRepetitions(exerciseIndex, setIndex, value)}
+                    updateWeight={value => updateSetWeight(exerciseIndex, setIndex, value)}
+                    delete={() => deleteSet(exerciseIndex, setIndex)}
+                  />
                 ))
               }
             </div>
