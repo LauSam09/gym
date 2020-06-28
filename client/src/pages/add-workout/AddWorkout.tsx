@@ -29,9 +29,15 @@ export default function AddWorkout () {
     setExercises(newExercises)
   }
 
-  function deleteExecise (exerciseIndex: number) {
+  function deleteExercise (exerciseIndex: number) {
     const newExercises = [...exercises]
     newExercises.splice(exerciseIndex, 1)
+    setExercises(newExercises)
+  }
+
+  function deleteSet (exerciseIndex: number, setIndex: number) {
+    const newExercises = [...exercises]
+    newExercises[exerciseIndex].sets.splice(setIndex, 1)
     setExercises(newExercises)
   }
 
@@ -50,7 +56,7 @@ export default function AddWorkout () {
             <div className={styles['exercise-header']}>
               <label>Exercise {exerciseIndex + 1}</label>
               <div className={styles['delete-exercise']}>
-                <Button text='X' size='small' onClick={() => deleteExecise(exerciseIndex)} />
+                <Button text='X' size='small' onClick={() => deleteExercise(exerciseIndex)} />
               </div>
             </div>
             <input style={{ width: '95%' }}/>
@@ -62,6 +68,7 @@ export default function AddWorkout () {
                     <input placeholder='-' value={set.weight} type="number" onChange={e => updateSetWeight(exerciseIndex, setIndex, e.target.value)} />kg
                      x
                     <input type="number" min="0" value={set.repetitions} onChange={e => updateSetRepetitions(exerciseIndex, setIndex, +e.target.value)} />
+                    <Button text='X' size='small' onClick={() => deleteSet(exerciseIndex, setIndex)} />
                   </div>
                 ))
               }
