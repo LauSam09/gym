@@ -1,10 +1,13 @@
-import React, { useState } from 'react'
+import React, { useState, useRef } from 'react'
+import Draggable from 'react-draggable'
 import Button from '../../components/common/Button'
-import styles from './AddWorkout.module.css'
 import Exercise from '../../models/domain/exercise'
+import styles from './AddWorkout.module.css'
 
 export default function AddWorkout () {
   const [exercises, setExercises] = useState<Exercise[]>([{ name: '', sets: [{ repetitions: 0 }] }])
+  const [dragging, setDragging] = useState(false)
+  const nodeRef = useRef(null)
 
   function handleSubmit (e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault()
@@ -29,8 +32,19 @@ export default function AddWorkout () {
     setExercises(newExercises)
   }
 
+  function deleteSet (exerciseIndex: number, setIndex: number, offset: number): false | void {
+    if (dragging && (offset === 50 || offset === -50)) {
+      const newExercises = [...exercises]
+      newExercises[exerciseIndex].sets.splice(setIndex, 1)
+      setExercises(newExercises)
+      setDragging(false)
+      console.log('returning false')
+      return false
+    }
+  }
+
   return <div className={styles.container}>
-    <div>
+    <div style={{ marginBottom: '10px' }}>
       <span>New Workout</span>
       <div style={{ float: 'right' }}>
         <Button size="small" text="Finish" />
@@ -49,10 +63,22 @@ export default function AddWorkout () {
               {
                 exercise.sets.map((set, setIndex) => (
                   <div key={setIndex}>
-                    <label>{setIndex + 1}</label>
-                    <input placeholder='-' value={set.weight} type="number" onChange={e => updateSetWeight(exerciseIndex, setIndex, e.target.value)} />kg
-                     x
-                    <input type="number" min="0" value={set.repetitions} onChange={e => updateSetRepetitions(exerciseIndex, setIndex, +e.target.value)} />
+                    <Draggable
+                      nodeRef={nodeRef}
+                      axis="x"
+                      bounds={{ left: -50, right: 50 }}
+                      position={{ x: 0, y: 0 }}
+                      onDrag={() => setDragging(true)}
+                      onStop={(_, pos) => deleteSet(exerciseIndex, setIndex, pos.x)}
+                    >
+                      <div ref={nodeRef}>
+                        <label>{setIndex + 1}</label>
+                        <input placeholder='-' value={set.weight || ''} type="number" onChange={e => updateSetWeight(exerciseIndex, setIndex, e.target.value)} />kg
+                      x
+                        <input type="number" min="0" value={set.repetitions} onChange={e => updateSetRepetitions(exerciseIndex, setIndex, +e.target.value)} />
+                      </div>
+                    </Draggable>
+
                   </div>
                 ))
               }
