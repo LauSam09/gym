@@ -29,6 +29,12 @@ export default function AddWorkout () {
     setExercises(newExercises)
   }
 
+  function deleteExecise (exerciseIndex: number) {
+    const newExercises = [...exercises]
+    newExercises.splice(exerciseIndex, 1)
+    setExercises(newExercises)
+  }
+
   return <div className={styles.container}>
     <div className={styles.header}>
       <span>New Workout</span>
@@ -41,10 +47,13 @@ export default function AddWorkout () {
       {
         exercises.map((exercise, exerciseIndex) => (
           <div key={exerciseIndex}>
-            <div className={styles['form-group']}>
+            <div className={styles['exercise-header']}>
               <label>Exercise {exerciseIndex + 1}</label>
-              <input />
+              <div className={styles['delete-exercise']}>
+                <Button text='X' size='small' onClick={() => deleteExecise(exerciseIndex)} />
+              </div>
             </div>
+            <input style={{ width: '95%' }}/>
             <div className={styles.sets}>
               {
                 exercise.sets.map((set, setIndex) => (

@@ -7,9 +7,12 @@
     padding: 20px 0;
 }
 
-.form-group {
-    display: flex;
-    flex-direction: column;
+.exercise-header {
+    padding: 10px 0;
+}
+
+.delete-exercise {
+    float: right;
 }
 
 .add {
