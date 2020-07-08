@@ -1,11 +1,12 @@
 import React, { useState } from 'react'
 import Button from '../../components/common/Button'
 import styles from './AddWorkout.module.css'
-import Exercise from '../../models/domain/exercise'
+import ExerciseModel from '../../models/domain/exercise'
 import Set from '../../components/add-workout/Set'
+import Exercise from '../../components/add-workout/Exercise'
 
 export default function AddWorkout () {
-  const [exercises, setExercises] = useState<Exercise[]>([{ name: '', sets: [{ repetitions: 0 }] }])
+  const [exercises, setExercises] = useState<ExerciseModel[]>([{ name: '', sets: [{ repetitions: 0 }] }])
 
   function handleSubmit (e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault()
@@ -52,33 +53,17 @@ export default function AddWorkout () {
 
     <form onSubmit={handleSubmit}>
       {
-        exercises.map((exercise, exerciseIndex) => (
-          <div key={exerciseIndex}>
-            <div className={styles['exercise-header']}>
-              <label>Exercise {exerciseIndex + 1}</label>
-              <div className={styles['delete-exercise']}>
-                <Button text='X' size='small' onClick={() => deleteExercise(exerciseIndex)} />
-              </div>
-            </div>
-            <input style={{ width: '95%' }}/>
-            <div className={styles.sets}>
-              {
-                exercise.sets.map((set, setIndex) => (
-                  <Set
-                    key={setIndex}
-                    number={setIndex}
-                    set={set}
-                    updateRepetitions={value => updateSetRepetitions(exerciseIndex, setIndex, value)}
-                    updateWeight={value => updateSetWeight(exerciseIndex, setIndex, value)}
-                    delete={() => deleteSet(exerciseIndex, setIndex)}
-                  />
-                ))
-              }
-            </div>
-            <div className={styles.add}>
-              <Button text='Add Set' size='small' onClick={() => addSet(exerciseIndex)} />
-            </div>
-          </div>
+        exercises.map((exercise, index) => (
+          <Exercise
+            key={index}
+            number={index}
+            exercise={exercise}
+            delete={() => deleteExercise(index)}
+            addSet={() => addSet(index)}
+            updateSetRepetitions={(setIndex, value) => updateSetRepetitions(index, setIndex, value)}
+            updateSetWeight={(setIndex, value) => updateSetWeight(index, setIndex, value)}
+            deleteSet={(setIndex) => deleteSet(index, setIndex)}
+          />
         ))
       }
       <div className={styles.add}>
